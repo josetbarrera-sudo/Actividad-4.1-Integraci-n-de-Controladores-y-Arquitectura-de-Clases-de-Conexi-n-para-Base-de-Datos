@@ -1,0 +1,404 @@
+﻿namespace Biblioteca
+{
+    partial class FrmLibros
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            btn_Imagen_frmLibros = new Button();
+            lblAutoria = new Label();
+            txb_RutaIma_frmLibros = new TextBox();
+            label69 = new Label();
+            txb_Info_frmLibros = new TextBox();
+            cmb_Estado_frmLibros = new ComboBox();
+            label2 = new Label();
+            cmb_Novedad_frmLibros = new ComboBox();
+            txb_Costo_frmLibros = new TextBox();
+            txb_Titulo_frmLibros = new TextBox();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            lbl_Tipo_frmLibros = new Label();
+            cmb_Tipo_frmLibros = new ComboBox();
+            lbl_Copias_frmLibros = new Label();
+            txb_Copias_frmLibros = new TextBox();
+            lbl_Archivo_frmLibros = new Label();
+            txb_Archivo_frmLibros = new TextBox();
+            btn_Archivo_frmLibros = new Button();
+            btn_Descargar_frmLibros = new Button();
+            lbl_Autores_frmLibros = new Label();
+            clb_Autores_frmLibros = new CheckedListBox();
+            pbxFotografia = new PictureBox();
+            btnCargarFoto = new Button();
+            ofdImagen = new OpenFileDialog();
+            ((System.ComponentModel.ISupportInitialize)pbxFotografia).BeginInit();
+            pnlFormularioBase.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
+            SuspendLayout();
+            // 
+            // pnlFormularioBase
+            // 
+            pnlFormularioBase.Controls.Add(btnCargarFoto);
+            pnlFormularioBase.Controls.Add(pbxFotografia);
+            pnlFormularioBase.Controls.Add(lblAutoria);
+            pnlFormularioBase.Controls.Add(btn_Imagen_frmLibros);
+            pnlFormularioBase.Controls.Add(txb_RutaIma_frmLibros);
+            pnlFormularioBase.Controls.Add(label69);
+            pnlFormularioBase.Controls.Add(txb_Info_frmLibros);
+            pnlFormularioBase.Controls.Add(cmb_Estado_frmLibros);
+            pnlFormularioBase.Controls.Add(label2);
+            pnlFormularioBase.Controls.Add(cmb_Novedad_frmLibros);
+            pnlFormularioBase.Controls.Add(txb_Costo_frmLibros);
+            pnlFormularioBase.Controls.Add(txb_Titulo_frmLibros);
+            pnlFormularioBase.Controls.Add(label6);
+            pnlFormularioBase.Controls.Add(label5);
+            pnlFormularioBase.Controls.Add(label4);
+            pnlFormularioBase.Controls.Add(lbl_Tipo_frmLibros);
+            pnlFormularioBase.Controls.Add(cmb_Tipo_frmLibros);
+            pnlFormularioBase.Controls.Add(lbl_Copias_frmLibros);
+            pnlFormularioBase.Controls.Add(txb_Copias_frmLibros);
+            pnlFormularioBase.Controls.Add(lbl_Archivo_frmLibros);
+            pnlFormularioBase.Controls.Add(txb_Archivo_frmLibros);
+            pnlFormularioBase.Controls.Add(btn_Archivo_frmLibros);
+            pnlFormularioBase.Controls.Add(btn_Descargar_frmLibros);
+            pnlFormularioBase.Controls.Add(lbl_Autores_frmLibros);
+            pnlFormularioBase.Controls.Add(clb_Autores_frmLibros);
+            pnlFormularioBase.Size = new Size(1143, 883);
+            pnlFormularioBase.Controls.SetChildIndex(pbxFotografia, 0);
+            pnlFormularioBase.Controls.SetChildIndex(btnCargarFoto, 0);
+            pnlFormularioBase.Controls.SetChildIndex(clb_Autores_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(lbl_Autores_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(btn_Descargar_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(btn_Archivo_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(txb_Archivo_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(lbl_Archivo_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(txb_Copias_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(lbl_Copias_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(cmb_Tipo_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(lbl_Tipo_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(label4, 0);
+            pnlFormularioBase.Controls.SetChildIndex(label5, 0);
+            pnlFormularioBase.Controls.SetChildIndex(label6, 0);
+            pnlFormularioBase.Controls.SetChildIndex(txb_Titulo_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(txb_Costo_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(cmb_Novedad_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(label2, 0);
+            pnlFormularioBase.Controls.SetChildIndex(cmb_Estado_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(txb_Info_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(label69, 0);
+            pnlFormularioBase.Controls.SetChildIndex(txb_RutaIma_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(btn_Imagen_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(lblAutoria, 0);
+            pnlFormularioBase.Controls.SetChildIndex(label1, 0);
+            pnlFormularioBase.Controls.SetChildIndex(txtId, 0);
+            // 
+            // txtId
+            // 
+            txtId.Location = new Point(145, 81);
+            // 
+            // label1
+            // 
+            label1.Location = new Point(112, 84);
+            // 
+            // lblAutoria  (encabezado de autoría permanente)
+            // 
+            lblAutoria.BorderStyle = BorderStyle.FixedSingle;
+            lblAutoria.Location = new Point(107, 690);
+            lblAutoria.Name = "lblAutoria";
+            lblAutoria.Size = new Size(560, 86);
+            lblAutoria.TabIndex = 97;
+            lblAutoria.Text = "Equipo 3\r\nCONTRERAS Rodríguez Janis Isabel\r\nMACÍAS Cruz Meredith Miranda\r\nTORRES Barrera José Ángel";
+            lblAutoria.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btn_Imagen_frmLibros
+            // 
+            btn_Imagen_frmLibros.Location = new Point(331, 341);
+            btn_Imagen_frmLibros.Margin = new Padding(3, 4, 3, 4);
+            btn_Imagen_frmLibros.Name = "btn_Imagen_frmLibros";
+            btn_Imagen_frmLibros.Size = new Size(38, 32);
+            btn_Imagen_frmLibros.TabIndex = 77;
+            btn_Imagen_frmLibros.Text = "...";
+            btn_Imagen_frmLibros.UseVisualStyleBackColor = true;
+            // 
+            // txb_RutaIma_frmLibros
+            // 
+            txb_RutaIma_frmLibros.BackColor = SystemColors.ButtonHighlight;
+            txb_RutaIma_frmLibros.Location = new Point(107, 341);
+            txb_RutaIma_frmLibros.Margin = new Padding(3, 4, 3, 4);
+            txb_RutaIma_frmLibros.Name = "txb_RutaIma_frmLibros";
+            txb_RutaIma_frmLibros.ReadOnly = true;
+            txb_RutaIma_frmLibros.Size = new Size(217, 27);
+            txb_RutaIma_frmLibros.TabIndex = 76;
+            // 
+            // label69
+            // 
+            label69.AutoSize = true;
+            label69.Font = new Font("Segoe UI", 9F);
+            label69.Location = new Point(107, 317);
+            label69.Name = "label69";
+            label69.Size = new Size(59, 20);
+            label69.TabIndex = 75;
+            label69.Text = "Imagen";
+            // 
+            // txb_Info_frmLibros
+            // 
+            txb_Info_frmLibros.BackColor = SystemColors.ButtonHighlight;
+            txb_Info_frmLibros.Location = new Point(393, 56);
+            txb_Info_frmLibros.Margin = new Padding(3, 4, 3, 4);
+            txb_Info_frmLibros.Multiline = true;
+            txb_Info_frmLibros.Name = "txb_Info_frmLibros";
+            txb_Info_frmLibros.ReadOnly = true;
+            txb_Info_frmLibros.ScrollBars = ScrollBars.Both;
+            txb_Info_frmLibros.Size = new Size(646, 324);
+            txb_Info_frmLibros.TabIndex = 74;
+            // 
+            // cmb_Estado_frmLibros
+            // 
+            cmb_Estado_frmLibros.FormattingEnabled = true;
+            cmb_Estado_frmLibros.Items.AddRange(new object[] { "Activo", "Inactivo" });
+            cmb_Estado_frmLibros.Location = new Point(171, 276);
+            cmb_Estado_frmLibros.Margin = new Padding(3, 4, 3, 4);
+            cmb_Estado_frmLibros.Name = "cmb_Estado_frmLibros";
+            cmb_Estado_frmLibros.Size = new Size(197, 28);
+            cmb_Estado_frmLibros.TabIndex = 73;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(109, 281);
+            label2.Name = "label2";
+            label2.Size = new Size(57, 20);
+            label2.TabIndex = 72;
+            label2.Text = "Estado:";
+            // 
+            // cmb_Novedad_frmLibros
+            // 
+            cmb_Novedad_frmLibros.FormattingEnabled = true;
+            cmb_Novedad_frmLibros.Items.AddRange(new object[] { "Sí", "No" });
+            cmb_Novedad_frmLibros.Location = new Point(181, 227);
+            cmb_Novedad_frmLibros.Margin = new Padding(3, 4, 3, 4);
+            cmb_Novedad_frmLibros.Name = "cmb_Novedad_frmLibros";
+            cmb_Novedad_frmLibros.Size = new Size(188, 28);
+            cmb_Novedad_frmLibros.TabIndex = 71;
+            // 
+            // txb_Costo_frmLibros
+            // 
+            txb_Costo_frmLibros.Location = new Point(170, 178);
+            txb_Costo_frmLibros.Margin = new Padding(3, 4, 3, 4);
+            txb_Costo_frmLibros.Name = "txb_Costo_frmLibros";
+            txb_Costo_frmLibros.Size = new Size(198, 27);
+            txb_Costo_frmLibros.TabIndex = 70;
+            // 
+            // txb_Titulo_frmLibros
+            // 
+            txb_Titulo_frmLibros.Location = new Point(170, 128);
+            txb_Titulo_frmLibros.Margin = new Padding(3, 4, 3, 4);
+            txb_Titulo_frmLibros.Name = "txb_Titulo_frmLibros";
+            txb_Titulo_frmLibros.ShortcutsEnabled = false;
+            txb_Titulo_frmLibros.Size = new Size(198, 27);
+            txb_Titulo_frmLibros.TabIndex = 69;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(107, 232);
+            label6.Name = "label6";
+            label6.Size = new Size(73, 20);
+            label6.TabIndex = 67;
+            label6.Text = "Novedad:";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(107, 182);
+            label5.Name = "label5";
+            label5.Size = new Size(50, 20);
+            label5.TabIndex = 66;
+            label5.Text = "Costo:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(107, 133);
+            label4.Name = "label4";
+            label4.Size = new Size(50, 20);
+            label4.TabIndex = 65;
+            label4.Text = "Título:";
+            // 
+            // lbl_Tipo_frmLibros
+            // 
+            lbl_Tipo_frmLibros.AutoSize = true;
+            lbl_Tipo_frmLibros.Location = new Point(107, 385);
+            lbl_Tipo_frmLibros.Name = "lbl_Tipo_frmLibros";
+            lbl_Tipo_frmLibros.Size = new Size(42, 20);
+            lbl_Tipo_frmLibros.TabIndex = 90;
+            lbl_Tipo_frmLibros.Text = "Tipo:";
+            // 
+            // cmb_Tipo_frmLibros
+            // 
+            cmb_Tipo_frmLibros.FormattingEnabled = true;
+            cmb_Tipo_frmLibros.Location = new Point(170, 382);
+            cmb_Tipo_frmLibros.Name = "cmb_Tipo_frmLibros";
+            cmb_Tipo_frmLibros.Size = new Size(199, 28);
+            cmb_Tipo_frmLibros.TabIndex = 92;
+            // 
+            // lbl_Copias_frmLibros
+            // 
+            lbl_Copias_frmLibros.AutoSize = true;
+            lbl_Copias_frmLibros.Location = new Point(111, 428);
+            lbl_Copias_frmLibros.Name = "lbl_Copias_frmLibros";
+            lbl_Copias_frmLibros.Size = new Size(57, 20);
+            lbl_Copias_frmLibros.TabIndex = 90;
+            lbl_Copias_frmLibros.Text = "Copias:";
+            // 
+            // txb_Copias_frmLibros
+            // 
+            txb_Copias_frmLibros.Location = new Point(181, 423);
+            txb_Copias_frmLibros.Name = "txb_Copias_frmLibros";
+            txb_Copias_frmLibros.Size = new Size(100, 27);
+            txb_Copias_frmLibros.TabIndex = 91;
+            // 
+            // lbl_Archivo_frmLibros
+            // 
+            lbl_Archivo_frmLibros.AutoSize = true;
+            lbl_Archivo_frmLibros.Location = new Point(107, 469);
+            lbl_Archivo_frmLibros.Name = "lbl_Archivo_frmLibros";
+            lbl_Archivo_frmLibros.Size = new Size(62, 20);
+            lbl_Archivo_frmLibros.TabIndex = 90;
+            lbl_Archivo_frmLibros.Text = "Archivo:";
+            // 
+            // txb_Archivo_frmLibros
+            // 
+            txb_Archivo_frmLibros.Location = new Point(197, 464);
+            txb_Archivo_frmLibros.Name = "txb_Archivo_frmLibros";
+            txb_Archivo_frmLibros.Size = new Size(560, 27);
+            txb_Archivo_frmLibros.TabIndex = 91;
+            // 
+            // btn_Archivo_frmLibros
+            // 
+            btn_Archivo_frmLibros.Location = new Point(763, 463);
+            btn_Archivo_frmLibros.Name = "btn_Archivo_frmLibros";
+            btn_Archivo_frmLibros.Size = new Size(38, 32);
+            btn_Archivo_frmLibros.TabIndex = 93;
+            btn_Archivo_frmLibros.Text = "...";
+            btn_Archivo_frmLibros.UseVisualStyleBackColor = true;
+            // 
+            // btn_Descargar_frmLibros
+            // 
+            btn_Descargar_frmLibros.Location = new Point(393, 404);
+            btn_Descargar_frmLibros.Name = "btn_Descargar_frmLibros";
+            btn_Descargar_frmLibros.Size = new Size(200, 32);
+            btn_Descargar_frmLibros.TabIndex = 93;
+            btn_Descargar_frmLibros.Text = "Abrir / descargar";
+            btn_Descargar_frmLibros.UseVisualStyleBackColor = true;
+            // 
+            // lbl_Autores_frmLibros
+            // 
+            lbl_Autores_frmLibros.AutoSize = true;
+            lbl_Autores_frmLibros.Location = new Point(107, 519);
+            lbl_Autores_frmLibros.Name = "lbl_Autores_frmLibros";
+            lbl_Autores_frmLibros.Size = new Size(63, 20);
+            lbl_Autores_frmLibros.TabIndex = 90;
+            lbl_Autores_frmLibros.Text = "Autores:";
+            // 
+            // clb_Autores_frmLibros
+            // 
+            clb_Autores_frmLibros.FormattingEnabled = true;
+            clb_Autores_frmLibros.Location = new Point(197, 514);
+            clb_Autores_frmLibros.Name = "clb_Autores_frmLibros";
+            clb_Autores_frmLibros.Size = new Size(560, 92);
+            clb_Autores_frmLibros.TabIndex = 94;
+            // 
+            // pbxFotografia  (Actividad 3.6: vista previa de la imagen)
+            // 
+            pbxFotografia.BackColor = SystemColors.ButtonHighlight;
+            pbxFotografia.BorderStyle = BorderStyle.FixedSingle;
+            pbxFotografia.Location = new Point(830, 490);
+            pbxFotografia.Name = "pbxFotografia";
+            pbxFotografia.Size = new Size(209, 200);
+            pbxFotografia.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbxFotografia.TabIndex = 95;
+            pbxFotografia.TabStop = false;
+            // 
+            // btnCargarFoto  (Actividad 3.6: botón "Cargar Imagen")
+            // 
+            btnCargarFoto.Location = new Point(830, 698);
+            btnCargarFoto.Name = "btnCargarFoto";
+            btnCargarFoto.Size = new Size(209, 32);
+            btnCargarFoto.TabIndex = 96;
+            btnCargarFoto.Text = "Cargar Imagen";
+            btnCargarFoto.UseVisualStyleBackColor = true;
+            // 
+            // ofdImagen  (OpenFileDialog de la Actividad 3.3, filtrado a imágenes)
+            // 
+            ofdImagen.CheckFileExists = true;
+            ofdImagen.Filter = "Archivos de imagen (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+            ofdImagen.Title = "Seleccionar imagen";
+            // 
+            // FrmLibros
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1145, 883);
+            Name = "FrmLibros";
+            Text = "FrmLibros";
+            ((System.ComponentModel.ISupportInitialize)pbxFotografia).EndInit();
+            pnlFormularioBase.ResumeLayout(false);
+            pnlFormularioBase.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private Button btn_Imagen_frmLibros;
+        private Label lblAutoria;
+        private TextBox txb_RutaIma_frmLibros;
+        private Label label69;
+        private TextBox txb_Info_frmLibros;
+        private ComboBox cmb_Estado_frmLibros;
+        private Label label2;
+        private ComboBox cmb_Novedad_frmLibros;
+        private TextBox txb_Costo_frmLibros;
+        private TextBox txb_Titulo_frmLibros;
+        private Label label6;
+        private Label label5;
+        private Label label4;
+        private Label lbl_Tipo_frmLibros;
+        private ComboBox cmb_Tipo_frmLibros;
+        private Label lbl_Copias_frmLibros;
+        private TextBox txb_Copias_frmLibros;
+        private Label lbl_Archivo_frmLibros;
+        private TextBox txb_Archivo_frmLibros;
+        private Button btn_Archivo_frmLibros;
+        private Button btn_Descargar_frmLibros;
+        private Label lbl_Autores_frmLibros;
+        private CheckedListBox clb_Autores_frmLibros;
+        private PictureBox pbxFotografia;
+        private Button btnCargarFoto;
+        private OpenFileDialog ofdImagen;
+    }
+}
