@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 
 using Biblioteca.Models;
@@ -67,7 +67,7 @@ namespace Biblioteca
 
                 string nombre = txb_Nombre_frmGene.Text.Trim();
                 string descripcion = txb_Descripcion_frmGene.Text.Trim();
-                string rutaImagen = txb_RutaIma_frmGene.Text.Trim();
+                string rutaImagen = ObtenerRutaImagen(txb_RutaIma_frmGene);   // FrmBase: copia física + ruta relativa
                 bool estado = ckb_Activo_frmGene.Checked;
 
                 // Instancia del modelo Genero usando su constructor parametrizado
@@ -143,7 +143,7 @@ namespace Biblioteca
                     id,
                     txb_Nombre_frmGene.Text.Trim(),
                     txb_Descripcion_frmGene.Text.Trim(),
-                    txb_RutaIma_frmGene.Text.Trim(),
+                    ObtenerRutaImagen(txb_RutaIma_frmGene),
                     ckb_Activo_frmGene.Checked
                 );
 

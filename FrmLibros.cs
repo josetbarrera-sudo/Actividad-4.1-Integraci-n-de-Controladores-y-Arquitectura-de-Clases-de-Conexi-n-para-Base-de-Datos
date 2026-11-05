@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 
 using Biblioteca.Models;
@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -26,6 +27,30 @@ namespace Biblioteca
             InitializeComponent();
             ConfigurarValidaciones();
             ConfigurarRecurso();
+        }
+
+        // ================== ACTIVIDAD 3.6: archivo digital (PDF / epub) ==================
+        // La imagen (vista previa, copia física y ruta relativa) ya no se programa aquí:
+        // la maneja FrmBase para todos los formularios (ObtenerRutaImagen / CopiarAlProyecto).
+        private const string CarpetaArchivos = "ArchivosDigitales";
+
+        // Ruta ORIGEN del PDF/epub elegido; se copia a ArchivosDigitales al guardar
+        private string _rutaOrigenArchivo = string.Empty;
+
+        // Igual que la imagen, pero para el PDF / libro electrónico de un recurso digital:
+        // se "sube" copiándolo a la carpeta ArchivosDigitales del proyecto.
+        private string? GuardarArchivoDigital()
+        {
+            if (_rutaOrigenArchivo.Length == 0)
+                return txb_Archivo_frmLibros.Text.Trim();
+
+            string? rutaRelativa = CopiarAlProyecto(_rutaOrigenArchivo, CarpetaArchivos);
+            if (rutaRelativa == null)
+                return null;
+
+            _rutaOrigenArchivo = string.Empty;
+            txb_Archivo_frmLibros.Text = rutaRelativa;
+            return rutaRelativa;
         }
 
         // ================== CORRECCIÓN 4.x: recursos físicos y digitales ==================
@@ -50,8 +75,8 @@ namespace Biblioteca
             CargarAutoresDisponibles();
             ActualizarCamposSegunTipo();
 
-            // Alumnos y profesores: solo consulta y descarga
-            if (!Sesion.EsAdministrador)
+            // Perfil Invitado: solo consulta y descarga (Administrador y Operador pueden registrar y actualizar)
+            if (SesionSistema.EsInvitado)
                 AplicarSoloLectura();
         }
 
@@ -96,7 +121,11 @@ namespace Biblioteca
             dialogo.Title = "Seleccionar archivo digital";
             dialogo.Filter = "Libros digitales (*.pdf;*.epub)|*.pdf;*.epub|Todos los archivos (*.*)|*.*";
             if (dialogo.ShowDialog() == DialogResult.OK)
-                txb_Archivo_frmLibros.Text = dialogo.FileName;
+            {
+                _rutaOrigenArchivo = dialogo.FileName;
+                txb_Archivo_frmLibros.Text = Path.GetFileName(dialogo.FileName);   // la ruta relativa se asigna al guardar
+                txb_Info_frmLibros.Text = "Archivo seleccionado. Se copiará a la carpeta \"" + CarpetaArchivos + "\" al guardar el registro.";
+            }
         }
 
         // Abre el PDF/libro electrónico (ruta local o enlace web) con la aplicación del sistema
@@ -111,7 +140,21 @@ namespace Biblioteca
 
             try
             {
-                Process.Start(new ProcessStartInfo(ruta) { UseShellExecute = true });
+                bool esEnlace = Uri.TryCreate(ruta, UriKind.Absolute, out Uri? uri)
+                                && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
+
+                // Si es una ruta relativa guardada por el sistema, se completa con la carpeta de la aplicación;
+                // si el usuario aún no guarda el registro, se abre el archivo original elegido.
+                string destino = ruta;
+                if (!esEnlace)
+                {
+                    if (_rutaOrigenArchivo.Length > 0)
+                        destino = _rutaOrigenArchivo;
+                    else if (!Path.IsPathRooted(ruta))
+                        destino = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ruta);
+                }
+
+                Process.Start(new ProcessStartInfo(destino) { UseShellExecute = true });
             }
             catch (Exception)
             {
@@ -209,12 +252,18 @@ namespace Biblioteca
                 // CORRECCIÓN: antes se comparaba contra "Disponible", que no existe en el combo,
                 // por eso todos los libros se guardaban como inactivos.
                 bool estado = cmb_Estado_frmLibros.SelectedItem?.ToString() == "Activo";
-                string rutaImagen = txb_RutaIma_frmLibros.Text.Trim();
+                string rutaImagen = ObtenerRutaImagen(txb_RutaIma_frmLibros);   // FrmBase: copia física + ruta relativa
 
                 bool esDigital = cmb_Tipo_frmLibros.SelectedItem?.ToString() == "Digital";
                 TipoRecurso tipo = esDigital ? TipoRecurso.Digital : TipoRecurso.Fisico;
                 int copias = esDigital ? 0 : int.Parse(txb_Copias_frmLibros.Text.Trim());
-                string archivo = esDigital ? txb_Archivo_frmLibros.Text.Trim() : string.Empty;
+                string? archivo = string.Empty;
+                if (esDigital)
+                {
+                    archivo = GuardarArchivoDigital();   // copia el PDF/epub a ArchivosDigitales
+                    if (archivo == null)
+                        return;
+                }
 
                 // Instancia usando el constructor completo de la clase Libros
                 Libros nuevoLibro = new Libros(id, titulo, costo, copias, esNovedad, rutaImagen, estado, tipo, archivo);
@@ -272,6 +321,7 @@ namespace Biblioteca
                     cmb_Tipo_frmLibros.SelectedItem = libroEncontrado.TipoRecurso == TipoRecurso.Digital ? "Digital" : "Físico";
                     txb_Copias_frmLibros.Text = libroEncontrado.TipoRecurso == TipoRecurso.Fisico ? libroEncontrado.TotalEjemplares.ToString() : "";
                     txb_Archivo_frmLibros.Text = libroEncontrado.RutaArchivoDigital;
+                    _rutaOrigenArchivo = string.Empty;
 
                     CargarAutoresDisponibles();
                     List<Autores> autoresDelLibro = libroEncontrado.ObtenerAutores();
@@ -318,14 +368,25 @@ namespace Biblioteca
                     return;
                 }
 
+                bool eraDigital = cmb_Tipo_frmLibros.SelectedItem?.ToString() == "Digital";
+                string? archivoDigital = string.Empty;
+                if (eraDigital)
+                {
+                    archivoDigital = GuardarArchivoDigital();
+                    if (archivoDigital == null)
+                        return;
+                }
+
+                string rutaImagen = ObtenerRutaImagen(txb_RutaIma_frmLibros);   // FrmBase: copia física + ruta relativa
+
                 bool esDigital = cmb_Tipo_frmLibros.SelectedItem?.ToString() == "Digital";
                 libro.Titulo = txb_Titulo_frmLibros.Text.Trim();
                 libro.PrecioRentaDiaria = decimal.TryParse(txb_Costo_frmLibros.Text.Trim(), out decimal c) ? c : 20.0m;
                 libro.EsNovedad = EsSi(cmb_Novedad_frmLibros.SelectedItem?.ToString());
-                libro.RutaImagen = txb_RutaIma_frmLibros.Text.Trim();
+                libro.RutaImagen = rutaImagen;
                 libro.EsActivo = cmb_Estado_frmLibros.SelectedItem?.ToString() == "Activo";
                 libro.TipoRecurso = esDigital ? TipoRecurso.Digital : TipoRecurso.Fisico;
-                libro.RutaArchivoDigital = esDigital ? txb_Archivo_frmLibros.Text.Trim() : string.Empty;
+                libro.RutaArchivoDigital = esDigital ? archivoDigital! : string.Empty;
                 libro.AjustarEjemplares(esDigital ? 0 : int.Parse(txb_Copias_frmLibros.Text.Trim()));
                 VincularAutoresSeleccionados(id);
 
@@ -384,6 +445,7 @@ namespace Biblioteca
             txb_RutaIma_frmLibros.Clear();
             txb_Copias_frmLibros.Clear();
             txb_Archivo_frmLibros.Clear();
+            _rutaOrigenArchivo = string.Empty;
             cmb_Tipo_frmLibros.SelectedIndex = 0;
             CargarAutoresDisponibles();
 

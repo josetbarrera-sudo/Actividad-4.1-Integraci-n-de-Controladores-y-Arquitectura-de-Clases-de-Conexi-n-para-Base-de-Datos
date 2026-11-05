@@ -33,11 +33,11 @@
             dtp_FechaReser_frmReser = new DateTimePicker();
             label74 = new Label();
             label73 = new Label();
-            txb_LibReser_frmReser = new TextBox();
+            cmb_LibReser_frmReser = new ComboBox();
             btn_Imagen_frmReser = new Button();
             ckb_Activo_frmReser = new CheckBox();
             txb_RutaIma_frmReser = new TextBox();
-            txb_Usuario_frmReser = new TextBox();
+            cmb_Usuario_frmReser = new ComboBox();
             label69 = new Label();
             label70 = new Label();
             label71 = new Label();
@@ -64,11 +64,11 @@
             pnlFormularioBase.Controls.Add(dtp_FechaReser_frmReser);
             pnlFormularioBase.Controls.Add(label74);
             pnlFormularioBase.Controls.Add(label73);
-            pnlFormularioBase.Controls.Add(txb_LibReser_frmReser);
+            pnlFormularioBase.Controls.Add(cmb_LibReser_frmReser);
             pnlFormularioBase.Controls.Add(btn_Imagen_frmReser);
             pnlFormularioBase.Controls.Add(ckb_Activo_frmReser);
             pnlFormularioBase.Controls.Add(txb_RutaIma_frmReser);
-            pnlFormularioBase.Controls.Add(txb_Usuario_frmReser);
+            pnlFormularioBase.Controls.Add(cmb_Usuario_frmReser);
             pnlFormularioBase.Controls.Add(label69);
             pnlFormularioBase.Controls.Add(label70);
             pnlFormularioBase.Controls.Add(label71);
@@ -78,11 +78,11 @@
             pnlFormularioBase.Controls.SetChildIndex(label71, 0);
             pnlFormularioBase.Controls.SetChildIndex(label70, 0);
             pnlFormularioBase.Controls.SetChildIndex(label69, 0);
-            pnlFormularioBase.Controls.SetChildIndex(txb_Usuario_frmReser, 0);
+            pnlFormularioBase.Controls.SetChildIndex(cmb_Usuario_frmReser, 0);
             pnlFormularioBase.Controls.SetChildIndex(txb_RutaIma_frmReser, 0);
             pnlFormularioBase.Controls.SetChildIndex(ckb_Activo_frmReser, 0);
             pnlFormularioBase.Controls.SetChildIndex(btn_Imagen_frmReser, 0);
-            pnlFormularioBase.Controls.SetChildIndex(txb_LibReser_frmReser, 0);
+            pnlFormularioBase.Controls.SetChildIndex(cmb_LibReser_frmReser, 0);
             pnlFormularioBase.Controls.SetChildIndex(label73, 0);
             pnlFormularioBase.Controls.SetChildIndex(label74, 0);
             pnlFormularioBase.Controls.SetChildIndex(dtp_FechaReser_frmReser, 0);
@@ -157,13 +157,15 @@
             label73.TabIndex = 74;
             label73.Text = "Fecha de reserva:";
             // 
-            // txb_LibReser_frmReser
+            // cmb_LibReser_frmReser
             // 
-            txb_LibReser_frmReser.Location = new Point(195, 142);
-            txb_LibReser_frmReser.Margin = new Padding(3, 4, 3, 4);
-            txb_LibReser_frmReser.Name = "txb_LibReser_frmReser";
-            txb_LibReser_frmReser.Size = new Size(238, 27);
-            txb_LibReser_frmReser.TabIndex = 73;
+            cmb_LibReser_frmReser.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_LibReser_frmReser.FormattingEnabled = true;
+            cmb_LibReser_frmReser.Location = new Point(195, 142);
+            cmb_LibReser_frmReser.Margin = new Padding(3, 4, 3, 4);
+            cmb_LibReser_frmReser.Name = "cmb_LibReser_frmReser";
+            cmb_LibReser_frmReser.Size = new Size(238, 28);
+            cmb_LibReser_frmReser.TabIndex = 73;
             // 
             // btn_Imagen_frmReser
             // 
@@ -199,13 +201,15 @@
             txb_RutaIma_frmReser.Size = new Size(312, 27);
             txb_RutaIma_frmReser.TabIndex = 70;
             // 
-            // txb_Usuario_frmReser
+            // cmb_Usuario_frmReser
             // 
-            txb_Usuario_frmReser.Location = new Point(142, 88);
-            txb_Usuario_frmReser.Margin = new Padding(3, 4, 3, 4);
-            txb_Usuario_frmReser.Name = "txb_Usuario_frmReser";
-            txb_Usuario_frmReser.Size = new Size(291, 27);
-            txb_Usuario_frmReser.TabIndex = 69;
+            cmb_Usuario_frmReser.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_Usuario_frmReser.FormattingEnabled = true;
+            cmb_Usuario_frmReser.Location = new Point(142, 88);
+            cmb_Usuario_frmReser.Margin = new Padding(3, 4, 3, 4);
+            cmb_Usuario_frmReser.Name = "cmb_Usuario_frmReser";
+            cmb_Usuario_frmReser.Size = new Size(291, 28);
+            cmb_Usuario_frmReser.TabIndex = 69;
             // 
             // label69
             // 
@@ -310,11 +314,11 @@
         private DateTimePicker dtp_FechaReser_frmReser;
         private Label label74;
         private Label label73;
-        private TextBox txb_LibReser_frmReser;
+        private ComboBox cmb_LibReser_frmReser;
         private Button btn_Imagen_frmReser;
         private CheckBox ckb_Activo_frmReser;
         private TextBox txb_RutaIma_frmReser;
-        private TextBox txb_Usuario_frmReser;
+        private ComboBox cmb_Usuario_frmReser;
         private Label label69;
         private Label label70;
         private Label label71;

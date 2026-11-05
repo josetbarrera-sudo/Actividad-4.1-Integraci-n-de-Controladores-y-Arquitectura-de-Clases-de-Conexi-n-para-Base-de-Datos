@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 using Biblioteca.Models;
 using System;
@@ -19,6 +19,21 @@ namespace Biblioteca
             InitializeComponent();
             ConfigurarValidaciones();
             CargarUsuarios();
+
+            // Si se registran usuarios nuevos con el formulario abierto, el menú los incluye al entrar
+            cmb_Usuario_frmMlta.Enter += (s, e) => RefrescarUsuarios();
+            this.Activated += (s, e) => RefrescarUsuarios();
+        }
+
+        private void RefrescarUsuarios()
+        {
+            if (cmb_Usuario_frmMlta.Items.Count == Usuarios.ObtenerTodos().Count)
+                return;
+
+            object? seleccionado = cmb_Usuario_frmMlta.SelectedValue;
+            CargarUsuarios();
+            if (seleccionado != null)
+                cmb_Usuario_frmMlta.SelectedValue = seleccionado;
         }
 
         // ================== ACTIVIDAD 3.1: EVENTOS DE VALIDACIÓN ==================
@@ -39,6 +54,7 @@ namespace Biblioteca
 
         private void CargarUsuarios()
         {
+            cmb_Usuario_frmMlta.DataSource = null;
             cmb_Usuario_frmMlta.DataSource = Usuarios.ObtenerTodos();
             cmb_Usuario_frmMlta.DisplayMember = "NombreCompleto";
             cmb_Usuario_frmMlta.ValueMember = "Id";
@@ -74,7 +90,7 @@ namespace Biblioteca
                 decimal montoBase = nup_MonBas_frmMlta.Value;
                 DateTime fechaEmision = dtp_FechaEmi_frmMlta.Value;
                 bool pagada = ckb_Pagada_frmMlta.Checked;
-                string rutaImagen = txb_RutaIma_frmMlta.Text.Trim();
+                string rutaImagen = ObtenerRutaImagen(txb_RutaIma_frmMlta);   // FrmBase: copia física + ruta relativa
                 bool estado = ckb_ActEst_frmMlta.Checked;
 
                 Multa nuevaMulta = new Multa(id, usuarioSeleccionado, motivo, montoBase, fechaEmision, pagada, rutaImagen, estado);
@@ -159,7 +175,7 @@ namespace Biblioteca
                     nup_MonBas_frmMlta.Value,
                     dtp_FechaEmi_frmMlta.Value,
                     ckb_Pagada_frmMlta.Checked,
-                    txb_RutaIma_frmMlta.Text.Trim(),
+                    ObtenerRutaImagen(txb_RutaIma_frmMlta),
                     ckb_ActEst_frmMlta.Checked
                 );
 

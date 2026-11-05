@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
  * 2. MACÍAS Cruz Meredith Miranda
- * 3. TORRES Barrera Jose Angel
+ * 3. TORRES Barrera José Ángel
  */
 using System;
 using System.ComponentModel;

@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 
 using Biblioteca.Models;
@@ -44,7 +44,7 @@ namespace Biblioteca
                 string departamento = txb_Depa_frmAdmin.Text.Trim();
                 DateTime fechaIngreso = dtp_FechaIng_frmAdmin.Value;
                 bool estado = cmb_Estado_frmAdmin.SelectedItem?.ToString() == "Activo";
-                string rutaImagen = txb_RutaIma_frmAdmin.Text.Trim();
+                string rutaImagen = ObtenerRutaImagen(txb_RutaIma_frmAdmin);   // FrmBase: copia física + ruta relativa
 
                 // Instancia usando el constructor parametrizado del modelo Administrador
                 Administrador nuevoAdmin = new Administrador(id, nombreCompleto, edad, correo, nivelAcceso, departamento, fechaIngreso, rutaImagen, estado);
@@ -122,7 +122,7 @@ namespace Biblioteca
                     int.TryParse(cmb_NivAcc_frmAdmin.SelectedItem?.ToString(), out int n) ? n : 3,
                     txb_Depa_frmAdmin.Text.Trim(),
                     dtp_FechaIng_frmAdmin.Value,
-                    txb_RutaIma_frmAdmin.Text.Trim(),
+                    ObtenerRutaImagen(txb_RutaIma_frmAdmin),
                     cmb_Estado_frmAdmin.SelectedItem?.ToString() == "Activo"
                 );
 

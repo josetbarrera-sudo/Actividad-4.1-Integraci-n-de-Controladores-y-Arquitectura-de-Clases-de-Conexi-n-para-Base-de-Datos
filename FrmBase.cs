@@ -1,14 +1,16 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Biblioteca
@@ -314,18 +316,51 @@ namespace Biblioteca
         // Cada formulario heredado tiene un botón "Imagen" y un TextBox "RutaIma".
         // Aquí se conectan entre sí una sola vez para toda la jerarquía (DRY).
 
+        // ACTIVIDAD 3.6 (general para todos los formularios heredados): vista previa de la imagen,
+        // carpeta automática, nombre único (GUID), copia física y ruta RELATIVA.
+        // pbxFotografia y ofdImagen se crean en el Diseñador de FrmBase.
+
+        private const string CarpetaImagenes = "ImagenesDatos";
+
+        // Ruta ORIGEN que eligió el usuario; el archivo se copia a la carpeta del proyecto hasta que se guarda.
+        private string _rutaOrigenImagen = string.Empty;
+        private bool _asignandoRuta = false;   // evita recargar la vista previa cuando la ruta la escribe la propia clase base
+
         private void ConectarDialogoImagen(Control contenedor)
         {
             Button? boton = null;
             TextBox? ruta = null;
             BuscarControlesImagen(contenedor, ref boton, ref ruta);
 
-            if (boton == null || ruta == null)
+            // Si el formulario no pide imagen, ni la vista previa ni el botón "Cargar Imagen" se muestran
+            if (ruta == null)
+            {
+                pbxFotografia.Visible = false;
+                btnCargarFoto.Visible = false;
                 return;
+            }
 
-            boton.Tag = ruta;                       // el botón recuerda en qué TextBox escribir
-            boton.Click -= BotonImagen_Click;
-            boton.Click += BotonImagen_Click;
+            pbxFotografia.SizeMode = PictureBoxSizeMode.StretchImage;   // visualización proporcional al control
+            pbxFotografia.BringToFront();
+            btnCargarFoto.BringToFront();
+
+            // Botón "Cargar Imagen" (común) y, si el formulario lo tiene, su botón "..." junto a la ruta:
+            // los dos ejecutan lo mismo
+            btnCargarFoto.Tag = ruta;               // el botón recuerda en qué TextBox escribir
+            btnCargarFoto.Click -= BotonImagen_Click;
+            btnCargarFoto.Click += BotonImagen_Click;
+
+            if (boton != null)
+            {
+                boton.Tag = ruta;
+                boton.Click -= BotonImagen_Click;
+                boton.Click += BotonImagen_Click;
+                new ToolTip().SetToolTip(boton, "Cargar Imagen");
+            }
+
+            // Cuando el formulario llena la ruta (Buscar) o la limpia (Limpiar), la vista previa se actualiza sola
+            ruta.TextChanged -= RutaImagen_TextChanged;
+            ruta.TextChanged += RutaImagen_TextChanged;
         }
 
         private void BuscarControlesImagen(Control contenedor, ref Button? boton, ref TextBox? ruta)
@@ -344,23 +379,201 @@ namespace Biblioteca
             }
         }
 
+        // ----- 1. Carga dinámica de la imagen con OpenFileDialog + vista previa -----
         private void BotonImagen_Click(object? sender, EventArgs e)
         {
             if (sender is not Button boton || boton.Tag is not TextBox ruta)
                 return;
 
-            using OpenFileDialog dialogo = new OpenFileDialog();
-            dialogo.Title = "Seleccionar imagen";
-            dialogo.Filter = "Imágenes (*.jpg;*.jpeg;*.png;*.bmp;*.gif)|*.jpg;*.jpeg;*.png;*.bmp;*.gif|Todos los archivos (*.*)|*.*";
-            dialogo.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            dialogo.CheckFileExists = true;
+            ofdImagen.Filter = "Archivos de imagen (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+            ofdImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
-            // La ruta solo se captura si el usuario confirmó con "Abrir" (DialogResult.OK)
-            if (dialogo.ShowDialog() == DialogResult.OK)
+            // La imagen solo se carga si el usuario confirmó con "Abrir" (DialogResult.OK)
+            if (ofdImagen.ShowDialog() != DialogResult.OK)
+                return;
+
+            string rutaOrigen = ofdImagen.FileName;
+
+            try
             {
-                ruta.Text = dialogo.FileName;
+                MostrarVistaPrevia(rutaOrigen);
+                _rutaOrigenImagen = rutaOrigen;
+
+                _asignandoRuta = true;
+                ruta.Text = Path.GetFileName(rutaOrigen);   // la ruta relativa definitiva se asigna al guardar
+                _asignandoRuta = false;
                 errorProvider1.SetError(ruta, "");
             }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("El archivo de imagen ya no existe en la ruta seleccionada.", "Archivo no encontrado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("No tiene permisos para leer el archivo seleccionado.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("El archivo está bloqueado o no se pudo leer.\n\n" + ex.Message, "Error de entrada/salida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (OutOfMemoryException)
+            {
+                // Image.FromFile lanza esta excepción cuando el archivo no es una imagen válida
+                MessageBox.Show("El archivo seleccionado no es una imagen válida.", "Formato no válido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            finally
+            {
+                _asignandoRuta = false;
+            }
+        }
+
+        // Image.FromFile(rutaOrigen) carga la vista previa. Se copia a un Bitmap en memoria y el original
+        // se libera de inmediato, para que el archivo no quede bloqueado por el sistema operativo.
+        private void MostrarVistaPrevia(string rutaOrigen)
+        {
+            using (Image original = Image.FromFile(rutaOrigen))
+            {
+                Image copia = new Bitmap(original);
+                pbxFotografia.SizeMode = PictureBoxSizeMode.StretchImage;
+                LimpiarVistaPrevia();
+                pbxFotografia.Image = copia;
+            }
+        }
+
+        private void LimpiarVistaPrevia()
+        {
+            Image? anterior = pbxFotografia.Image;
+            pbxFotografia.Image = null;
+            anterior?.Dispose();   // libera la memoria de la imagen anterior
+        }
+
+        // Se ejecuta cuando el texto de la ruta cambia desde el formulario (Buscar o Limpiar):
+        // muestra la imagen del registro a partir de su ruta relativa, o vacía la vista previa.
+        private void RutaImagen_TextChanged(object? sender, EventArgs e)
+        {
+            if (_asignandoRuta || sender is not TextBox ruta)
+                return;
+
+            _rutaOrigenImagen = string.Empty;
+            LimpiarVistaPrevia();
+
+            string rutaRelativa = ruta.Text.Trim();
+            if (rutaRelativa.Length == 0)
+                return;
+
+            try
+            {
+                string rutaCompleta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, rutaRelativa);
+                if (File.Exists(rutaCompleta))
+                    MostrarVistaPrevia(rutaCompleta);
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is OutOfMemoryException || ex is ArgumentException)
+            {
+                // Si no se puede mostrar la imagen, el registro se consulta normalmente sin vista previa
+                LimpiarVistaPrevia();
+            }
+        }
+
+        // ----- 2, 3 y 4. Directorio automático, nombre único, copia física y ruta relativa -----
+        // Los formularios heredados llaman a este método al GUARDAR / ACTUALIZAR en lugar de leer el TextBox:
+        // si se eligió una imagen nueva la copia a ImagenesDatos y devuelve la ruta relativa;
+        // si no, devuelve la ruta que ya tenía el registro.
+        protected string ObtenerRutaImagen(TextBox ruta)
+        {
+            if (_rutaOrigenImagen.Length == 0)
+                return ruta.Text.Trim();
+
+            string? rutaRelativa = CopiarAlProyecto(_rutaOrigenImagen, CarpetaImagenes);
+            if (rutaRelativa == null)
+                throw new OperationCanceledException("No se pudo copiar la imagen; el registro no se guardó.");   // el error ya se notificó con MessageBox
+
+            _rutaOrigenImagen = string.Empty;
+            _asignandoRuta = true;
+            ruta.Text = rutaRelativa;   // solo la ruta (texto), no los bytes de la imagen
+            _asignandoRuta = false;
+            return rutaRelativa;
+        }
+
+        // Crea la carpeta (si no existe), genera un nombre único con GUID conservando la extensión,
+        // copia el archivo con File.Copy y devuelve la ruta relativa. Null si ocurre un error.
+        protected string? CopiarAlProyecto(string rutaOrigen, string carpeta)
+        {
+            try
+            {
+                // Ruta relativa al entorno de ejecución (portable, sin rutas absolutas fijas)
+                string rutaBase = AppDomain.CurrentDomain.BaseDirectory;
+                string carpetaDestino = Path.Combine(rutaBase, carpeta);
+
+                if (!Directory.Exists(carpetaDestino))
+                    Directory.CreateDirectory(carpetaDestino);
+
+                // Nombre único (GUID) conservando la extensión original: evita colisiones de nombres
+                string nombreUnico = Guid.NewGuid().ToString() + Path.GetExtension(rutaOrigen);
+                string rutaDestino = Path.Combine(carpetaDestino, nombreUnico);
+
+                // Copia física desde la ubicación del usuario al repositorio local (true = sobrescribe)
+                File.Copy(rutaOrigen, rutaDestino, true);
+
+                return Path.Combine(carpeta, nombreUnico);
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("El archivo seleccionado ya no existe. Vuelva a cargarlo.", "Archivo no encontrado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("No tiene permisos para escribir en la carpeta \"" + carpeta + "\" o el archivo es de solo lectura.", "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("No se pudo copiar el archivo (disco lleno, archivo bloqueado u otro error).\n\n" + ex.Message, "Error de entrada/salida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return null;
+        }
+
+        // ================== MENÚS DE SELECCIÓN (usuarios, libros...) ==================
+        // Llenan un ComboBox con los registros que YA existen. Si la lista no cambió no se toca el
+        // control; si cambió, se rehace y se conserva la opción elegida.
+        protected static void CargarSelector(ComboBox combo, IEnumerable<string> opciones)
+        {
+            List<string> nuevas = new List<string>(opciones);
+
+            bool igual = combo.Items.Count == nuevas.Count;
+            for (int i = 0; igual && i < nuevas.Count; i++)
+                igual = combo.Items[i]?.ToString() == nuevas[i];
+            if (igual)
+                return;
+
+            string elegido = combo.Text;
+            combo.BeginUpdate();
+            combo.Items.Clear();
+            foreach (string o in nuevas)
+                combo.Items.Add(o);
+            combo.EndUpdate();
+            combo.SelectedIndex = elegido.Length > 0 ? combo.FindStringExact(elegido) : -1;
+        }
+
+        // Las opciones con formato "ID - Nombre" devuelven su ID (o null si no hay nada elegido)
+        protected static int? IdDeSelector(ComboBox combo)
+        {
+            string texto = combo.Text.Trim();
+            int guion = texto.IndexOf(" - ");
+            string numero = guion > 0 ? texto.Substring(0, guion) : texto;
+            return int.TryParse(numero, out int id) ? id : (int?)null;
+        }
+
+        // Elige en el menú la opción cuyo ID coincide (por ejemplo al consultar un registro)
+        protected static void SeleccionarPorId(ComboBox combo, int id)
+        {
+            for (int i = 0; i < combo.Items.Count; i++)
+            {
+                if (combo.Items[i]?.ToString()?.StartsWith(id + " - ") == true)
+                {
+                    combo.SelectedIndex = i;
+                    return;
+                }
+            }
+            combo.SelectedIndex = -1;
         }
 
         // ================== APOYO PARA GUARDAR / ACTUALIZAR ==================

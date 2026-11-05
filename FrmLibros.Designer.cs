@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             btn_Imagen_frmLibros = new Button();
+            lblAutoria = new Label();
             txb_RutaIma_frmLibros = new TextBox();
             label69 = new Label();
             txb_Info_frmLibros = new TextBox();
@@ -56,6 +57,7 @@
             // 
             // pnlFormularioBase
             // 
+            pnlFormularioBase.Controls.Add(lblAutoria);
             pnlFormularioBase.Controls.Add(btn_Imagen_frmLibros);
             pnlFormularioBase.Controls.Add(txb_RutaIma_frmLibros);
             pnlFormularioBase.Controls.Add(label69);
@@ -101,6 +103,7 @@
             pnlFormularioBase.Controls.SetChildIndex(label69, 0);
             pnlFormularioBase.Controls.SetChildIndex(txb_RutaIma_frmLibros, 0);
             pnlFormularioBase.Controls.SetChildIndex(btn_Imagen_frmLibros, 0);
+            pnlFormularioBase.Controls.SetChildIndex(lblAutoria, 0);
             pnlFormularioBase.Controls.SetChildIndex(label1, 0);
             pnlFormularioBase.Controls.SetChildIndex(txtId, 0);
             // 
@@ -111,6 +114,16 @@
             // label1
             // 
             label1.Location = new Point(112, 84);
+            // 
+            // lblAutoria  (encabezado de autoría permanente)
+            // 
+            lblAutoria.BorderStyle = BorderStyle.FixedSingle;
+            lblAutoria.Location = new Point(107, 690);
+            lblAutoria.Name = "lblAutoria";
+            lblAutoria.Size = new Size(560, 86);
+            lblAutoria.TabIndex = 97;
+            lblAutoria.Text = "Equipo 3\r\nCONTRERAS Rodríguez Janis Isabel\r\nMACÍAS Cruz Meredith Miranda\r\nTORRES Barrera José Ángel";
+            lblAutoria.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btn_Imagen_frmLibros
             // 
@@ -327,6 +340,7 @@
         #endregion
 
         private Button btn_Imagen_frmLibros;
+        private Label lblAutoria;
         private TextBox txb_RutaIma_frmLibros;
         private Label label69;
         private TextBox txb_Info_frmLibros;

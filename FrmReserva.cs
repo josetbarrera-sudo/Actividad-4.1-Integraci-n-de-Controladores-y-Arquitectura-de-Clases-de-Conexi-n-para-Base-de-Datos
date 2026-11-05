@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 using Biblioteca.Models;
 using System;
@@ -31,7 +31,24 @@ namespace Biblioteca
             btnVaciar.Click -= btnVaciar_Click;
             btnVaciar.Click += btnVaciar_Click;
 
+            ConfigurarSelectores();
             ActualizarVistaCola();
+        }
+
+        // ================== MENÚS PARA ELEGIR USUARIO Y LIBRO ==================
+        // En lugar de escribir el ID, se elige entre los usuarios y libros que ya existen ("ID - Nombre").
+        private void ConfigurarSelectores()
+        {
+            ActualizarSelectores();
+            cmb_Usuario_frmReser.Enter += (s, e) => ActualizarSelectores();
+            cmb_LibReser_frmReser.Enter += (s, e) => ActualizarSelectores();
+            this.Activated += (s, e) => ActualizarSelectores();   // incluye los registros nuevos al regresar al formulario
+        }
+
+        private void ActualizarSelectores()
+        {
+            CargarSelector(cmb_Usuario_frmReser, Usuarios.ObtenerTodos().Select(u => u.Id + " - " + u.NombreCompleto));
+            CargarSelector(cmb_LibReser_frmReser, Libros.ObtenerTodos().Select(l => l.Id + " - " + l.Titulo));
         }
 
         public void EjecutarGuardar()
@@ -44,15 +61,15 @@ namespace Biblioteca
                     return;
                 }
 
-                if (!int.TryParse(txb_Usuario_frmReser.Text.Trim(), out int usuarioId))
+                if (IdDeSelector(cmb_Usuario_frmReser) is not int usuarioId)
                 {
-                    txb_Info_frmReser.Text = "⚠️ Ingrese un ID de usuario numérico válido.";
+                    txb_Info_frmReser.Text = "⚠️ Elija un usuario del menú.";
                     return;
                 }
 
-                if (!int.TryParse(txb_LibReser_frmReser.Text.Trim(), out int libroId))
+                if (IdDeSelector(cmb_LibReser_frmReser) is not int libroId)
                 {
-                    txb_Info_frmReser.Text = "⚠️ Ingrese un ID de libro numérico válido.";
+                    txb_Info_frmReser.Text = "⚠️ Elija un libro del menú.";
                     return;
                 }
 
@@ -73,7 +90,7 @@ namespace Biblioteca
 
                 DateTime fechaReserva = dtp_FechaReser_frmReser.Value;
                 DateTime fechaLimite = dtp_FechaEntr_frmReser.Value;
-                string rutaImagen = txb_RutaIma_frmReser.Text.Trim();
+                string rutaImagen = ObtenerRutaImagen(txb_RutaIma_frmReser);   // FrmBase: copia física + ruta relativa
                 bool estado = ckb_Activo_frmReser.Checked;
 
                 Reserva nuevaReserva = new Reserva(id, usuarioEncontrado, libroEncontrado, fechaReserva, fechaLimite, rutaImagen, estado);
@@ -111,8 +128,9 @@ namespace Biblioteca
                 if (reservaEncontrada != null)
                 {
                     txtId.Text = reservaEncontrada.Id.ToString();
-                    txb_Usuario_frmReser.Text = reservaEncontrada.Usuario.Id.ToString();
-                    txb_LibReser_frmReser.Text = reservaEncontrada.LibroReservado.Id.ToString();
+                    ActualizarSelectores();
+                    SeleccionarPorId(cmb_Usuario_frmReser, reservaEncontrada.Usuario.Id);
+                    SeleccionarPorId(cmb_LibReser_frmReser, reservaEncontrada.LibroReservado.Id);
                     dtp_FechaReser_frmReser.Value = reservaEncontrada.FechaReserva;
                     dtp_FechaEntr_frmReser.Value = reservaEncontrada.FechaLimite;
                     txb_RutaIma_frmReser.Text = reservaEncontrada.RutaImagen;
@@ -139,10 +157,10 @@ namespace Biblioteca
                     return;
                 }
 
-                if (!int.TryParse(txb_Usuario_frmReser.Text.Trim(), out int usuarioId) ||
-                    !int.TryParse(txb_LibReser_frmReser.Text.Trim(), out int libroId))
+                if (IdDeSelector(cmb_Usuario_frmReser) is not int usuarioId ||
+                    IdDeSelector(cmb_LibReser_frmReser) is not int libroId)
                 {
-                    txb_Info_frmReser.Text = "Ingrese IDs numéricos válidos de usuario y libro.";
+                    txb_Info_frmReser.Text = "Elija un usuario y un libro del menú.";
                     return;
                 }
 
@@ -161,7 +179,7 @@ namespace Biblioteca
                     libroEncontrado,
                     dtp_FechaReser_frmReser.Value,
                     dtp_FechaEntr_frmReser.Value,
-                    txb_RutaIma_frmReser.Text.Trim(),
+                    ObtenerRutaImagen(txb_RutaIma_frmReser),
                     ckb_Activo_frmReser.Checked
                 );
 
@@ -215,8 +233,8 @@ namespace Biblioteca
         private void LimpiarCampos()
         {
             txtId.Clear();
-            txb_Usuario_frmReser.Clear();
-            txb_LibReser_frmReser.Clear();
+            cmb_Usuario_frmReser.SelectedIndex = -1;
+            cmb_LibReser_frmReser.SelectedIndex = -1;
             dtp_FechaReser_frmReser.Value = DateTime.Now;
             dtp_FechaEntr_frmReser.Value = DateTime.Now.AddDays(3);
             txb_RutaIma_frmReser.Clear();
@@ -296,10 +314,10 @@ namespace Biblioteca
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(txb_Usuario_frmReser.Text) ||
-                    string.IsNullOrWhiteSpace(txb_LibReser_frmReser.Text))
+                if (string.IsNullOrWhiteSpace(cmb_Usuario_frmReser.Text) ||
+                    string.IsNullOrWhiteSpace(cmb_LibReser_frmReser.Text))
                 {
-                    txb_Info_frmReser.Text = "Escriba el usuario y el libro.";
+                    txb_Info_frmReser.Text = "Elija el usuario y el libro del menú.";
                     return;
                 }
 
@@ -309,14 +327,14 @@ namespace Biblioteca
                     return;
                 }
 
-                Usuarios? usuario = BuscarUsuario(txb_Usuario_frmReser.Text);
+                Usuarios? usuario = BuscarUsuario(IdDeSelector(cmb_Usuario_frmReser)?.ToString() ?? cmb_Usuario_frmReser.Text);
                 if (usuario == null)
                 {
                     txb_Info_frmReser.Text = "No se encontró ese usuario. Regístrelo primero en el módulo Usuarios.";
                     return;
                 }
 
-                Libros? libro = BuscarLibro(txb_LibReser_frmReser.Text);
+                Libros? libro = BuscarLibro(IdDeSelector(cmb_LibReser_frmReser)?.ToString() ?? cmb_LibReser_frmReser.Text);
                 if (libro == null)
                 {
                     txb_Info_frmReser.Text = "No se encontró ese libro. Regístrelo primero en el módulo Libros.";
@@ -325,7 +343,7 @@ namespace Biblioteca
 
                 Reserva nueva = new Reserva(id, usuario, libro,
                     dtp_FechaReser_frmReser.Value, dtp_FechaEntr_frmReser.Value,
-                    txb_RutaIma_frmReser.Text.Trim(), ckb_Activo_frmReser.Checked);
+                    ObtenerRutaImagen(txb_RutaIma_frmReser), ckb_Activo_frmReser.Checked);
 
                 _modelo.Encolar(nueva);
                 txb_Info_frmReser.Text = "Turno registrado. En espera: " + _modelo.ContarElementos();

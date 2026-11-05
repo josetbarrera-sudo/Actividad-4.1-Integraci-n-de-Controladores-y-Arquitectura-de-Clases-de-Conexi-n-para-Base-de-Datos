@@ -59,13 +59,17 @@
             btnColor = new Button();
             btnFuente = new Button();
             statusStrip1 = new StatusStrip();
+            tssMensaje = new ToolStripStatusLabel();
+            tssUsuario = new ToolStripStatusLabel();
+            tssRol = new ToolStripStatusLabel();
+            tssHora = new ToolStripStatusLabel();
             sfdExportar = new SaveFileDialog();
             cdColor = new ColorDialog();
             fdFuente = new FontDialog();
             errorProvider1 = new ErrorProvider(components);
             pnlBotonera.SuspendLayout();
             btnEstadisticas = new Button();
-            btnMisPrestamos = new Button();
+            btnDatosSesion = new Button();
             btnProcesoMasivo = new Button();
             menuStrip1 = new MenuStrip();
             mnuVentana = new ToolStripMenuItem();
@@ -75,6 +79,7 @@
             menuStrip1.SuspendLayout();
             pnlCabezera.SuspendLayout();
             pnlAcciones.SuspendLayout();
+            statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
@@ -332,7 +337,7 @@
             pnlAcciones.Controls.Add(btnColor);
             pnlAcciones.Controls.Add(btnFuente);
             pnlAcciones.Controls.Add(btnEstadisticas);
-            pnlAcciones.Controls.Add(btnMisPrestamos);
+            pnlAcciones.Controls.Add(btnDatosSesion);
             pnlAcciones.Controls.Add(btnProcesoMasivo);
             pnlAcciones.Dock = DockStyle.Right;
             pnlAcciones.Location = new Point(1113, 153);
@@ -393,11 +398,44 @@
             // statusStrip1
             // 
             statusStrip1.ImageScalingSize = new Size(20, 20);
+            statusStrip1.Items.AddRange(new ToolStripItem[] { tssMensaje, tssUsuario, tssRol, tssHora });
             statusStrip1.Location = new Point(0, 851);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1283, 22);
             statusStrip1.TabIndex = 15;
             statusStrip1.Text = "statusStrip1";
+            // 
+            // tssMensaje (Items[0]: mensajes generales, también los usa EjecutarEliminar)
+            // 
+            tssMensaje.Name = "tssMensaje";
+            tssMensaje.Size = new Size(700, 20);
+            tssMensaje.Spring = true;
+            tssMensaje.Text = "Listo";
+            tssMensaje.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // tssUsuario (Actividad 3.7: usuario activo)
+            // 
+            tssUsuario.BorderSides = ToolStripStatusLabelBorderSides.Left;
+            tssUsuario.BorderStyle = Border3DStyle.Etched;
+            tssUsuario.Name = "tssUsuario";
+            tssUsuario.Size = new Size(120, 20);
+            tssUsuario.Text = "Usuario: -";
+            // 
+            // tssRol (Actividad 3.7: rol del usuario)
+            // 
+            tssRol.BorderSides = ToolStripStatusLabelBorderSides.Left;
+            tssRol.BorderStyle = Border3DStyle.Etched;
+            tssRol.Name = "tssRol";
+            tssRol.Size = new Size(80, 20);
+            tssRol.Text = "Rol: -";
+            // 
+            // tssHora (Actividad 3.7: hora de inicio de sesión)
+            // 
+            tssHora.BorderSides = ToolStripStatusLabelBorderSides.Left;
+            tssHora.BorderStyle = Border3DStyle.Etched;
+            tssHora.Name = "tssHora";
+            tssHora.Size = new Size(170, 20);
+            tssHora.Text = "Inicio de sesión: -";
             // 
             // errorProvider1
             // 
@@ -425,15 +463,17 @@
             btnEstadisticas.TabIndex = 5;
             btnEstadisticas.Text = "Estadísticas";
             btnEstadisticas.UseVisualStyleBackColor = true;
+            btnEstadisticas.Click += btnEstadisticas_Click;
             // 
-            // btnMisPrestamos
+            // btnDatosSesion
             // 
-            btnMisPrestamos.Location = new Point(10, 270);
-            btnMisPrestamos.Name = "btnMisPrestamos";
-            btnMisPrestamos.Size = new Size(148, 36);
-            btnMisPrestamos.TabIndex = 6;
-            btnMisPrestamos.Text = "Mis préstamos";
-            btnMisPrestamos.UseVisualStyleBackColor = true;
+            btnDatosSesion.Location = new Point(10, 370);
+            btnDatosSesion.Name = "btnDatosSesion";
+            btnDatosSesion.Size = new Size(148, 36);
+            btnDatosSesion.TabIndex = 6;
+            btnDatosSesion.Text = "Datos de sesión";
+            btnDatosSesion.UseVisualStyleBackColor = true;
+            btnDatosSesion.Click += btnDatosSesion_Click;
             // 
             // btnProcesoMasivo
             // 
@@ -499,11 +539,14 @@
             Name = "FrmPrincipal";
             Text = "FrmPrincipal";
             FormClosing += FrmPrincipal_FormClosing;
+            Load += FrmPrincipal_Load;
             pnlBotonera.ResumeLayout(false);
             pnlBotonera.PerformLayout();
             pnlCabezera.ResumeLayout(false);
             pnlCabezera.PerformLayout();
             pnlAcciones.ResumeLayout(false);
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
@@ -527,6 +570,10 @@
         private Label label1;
         private TextBox txtIdBusqueda;
         private StatusStrip statusStrip1;
+        private ToolStripStatusLabel tssMensaje;
+        private ToolStripStatusLabel tssUsuario;
+        private ToolStripStatusLabel tssRol;
+        private ToolStripStatusLabel tssHora;
         private Button btnEditorial;
         private Button btnAdministrador;
         private Button btnMulta;
@@ -544,7 +591,7 @@
         private Label label6;
         private ErrorProvider errorProvider1;
         private Button btnEstadisticas;
-        private Button btnMisPrestamos;
+        private Button btnDatosSesion;
         private Button btnProcesoMasivo;
         private Panel pnlAcciones;
         private Button btnConsulta;

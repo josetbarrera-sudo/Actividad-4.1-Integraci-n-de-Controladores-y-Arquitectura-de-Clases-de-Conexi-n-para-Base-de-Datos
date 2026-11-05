@@ -349,6 +349,12 @@
             label8.TabIndex = 94;
             label8.Text = "ID:";
             // 
+            // pbxFotografia (heredado de FrmBase): se reubica debajo del DataGridView
+            // 
+            pbxFotografia.Location = new Point(830, 636);
+            pbxFotografia.Size = new Size(209, 170);
+            btnCargarFoto.Location = new Point(830, 812);
+            // 
             // FrmEditorial
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);

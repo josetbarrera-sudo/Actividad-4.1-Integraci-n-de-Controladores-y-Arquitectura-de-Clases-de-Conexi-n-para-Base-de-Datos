@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 using System;
 using System.Collections.Generic;
@@ -25,50 +25,70 @@ namespace Biblioteca
         public FrmPrincipal()
         {
             InitializeComponent();
-            AplicarPermisos();
         }
 
-        // ================== CONTROL DE ACCESOS POR ROL ==================
-        // Controles nuevos  btnEstadisticas y btnMisPrestamos
-        private void AplicarPermisos()
+        // ================== ACTIVIDAD 3.7: SESIÓN Y RESTRICCIONES POR PERFIL ==================
+        // El evento Load (se enlaza en el Diseñador) lee la clase estática SesionSistema,
+        // muestra los datos en el StatusStrip y aplica las restricciones según el rol activo.
+        private void FrmPrincipal_Load(object? sender, EventArgs e)
         {
-            Usuarios? actual = Sesion.UsuarioActual;
-            if (actual == null)
-                return;
+            this.Text = $"Gestión de Biblioteca - {SesionSistema.UsuarioActivo} ({SesionSistema.RolActivo})";
 
-            this.Text = $"Gestión de Biblioteca - {actual.NombreCompleto} ({actual.Rol})";
+            tssUsuario.Text = $"Usuario: {SesionSistema.UsuarioActivo}";
+            tssRol.Text = $"Rol: {SesionSistema.RolActivo}";
+            tssHora.Text = $"Inicio de sesión: {SesionSistema.HoraInicioSesion:dd/MM/yyyy HH:mm:ss}";
 
-            bool esAdmin = Sesion.EsAdministrador;
+            AplicarRestriccionesPorRol();
+        }
 
-            // Solo el administrador ve las estadísticas y los módulos de administración
-            btnEstadisticas.Visible = esAdmin;
-            btnEstadisticas.Click += btnEstadisticas_Click;
+        // Enabled = false deshabilita un control; Visible = false lo oculta.
+        private void AplicarRestriccionesPorRol()
+        {
+            if (SesionSistema.RolActivo == Roles.Administrador)
+            {
+                // Administrador: acceso completo, no se restringe nada.
+                tssMensaje.Text = "Acceso completo (Administrador).";
+            }
+            else if (SesionSistema.RolActivo == Roles.Operador)
+            {
+                // Operador: consulta, registro y actualización; sin procesos administrativos.
+                btnUsuarios.Visible = false;
+                btnAdministrador.Visible = false;
+                btnPersona.Visible = false;
+                btnEstadisticas.Visible = false;
+                btnProcesoMasivo.Visible = false;
+                btnMasterEliminar.Enabled = false;
 
-            // Actividad 3.4: el reporte masivo (proceso en segundo plano) es una función del administrador
-            btnProcesoMasivo.Visible = esAdmin;
+                tssMensaje.Text = "Perfil Operador: sin acceso a procesos administrativos.";
+            }
+            else
+            {
+                // Invitado (o cualquier perfil desconocido: mínimo privilegio): solo consulta.
+                btnUsuarios.Visible = false;
+                btnAdministrador.Visible = false;
+                btnPersona.Visible = false;
+                btnAutores.Visible = false;
+                btnPrestamos.Visible = false;
+                btnGenero.Visible = false;
+                btnReserva.Visible = false;
+                btnMulta.Visible = false;
+                btnEditorial.Visible = false;
+                btnEstadisticas.Visible = false;
+                btnProcesoMasivo.Visible = false;
+                btnEdicionRapida.Visible = false;
 
-            // Alumnos y docentes ven sus propios préstamos y la fecha límite
-            btnMisPrestamos.Visible = !esAdmin;
-            btnMisPrestamos.Click += btnMisPrestamos_Click;
+                btnMasterGuardar.Enabled = false;
+                btnMasterActualizar.Enabled = false;
+                btnMasterEliminar.Enabled = false;
 
-            if (esAdmin)
-                return;
+                tssMensaje.Text = "Perfil Invitado: solo opciones de consulta.";
+            }
+        }
 
-            // Alumnos y docentes: catálogo (Libros), consulta de préstamos y descarga de material digital
-            btnAutores.Visible = false;
-            btnUsuarios.Visible = false;
-            btnPersona.Visible = false;
-            btnGenero.Visible = false;
-            btnReserva.Visible = false;
-            btnMulta.Visible = false;
-            btnEditorial.Visible = false;
-            btnAdministrador.Visible = false;
-
-            btnMasterGuardar.Visible = false;
-            btnMasterActualizar.Visible = false;
-            btnMasterEliminar.Visible = false;
-
-            btnEdicionRapida.Visible = false;
+        // Abre la ventana hija que demuestra la comunicación entre formularios (lee SesionSistema)
+        private void btnDatosSesion_Click(object? sender, EventArgs e)
+        {
+            AbrirHijo<FrmSesionInfo>("Datos de sesión");
         }
 
         private void btnEstadisticas_Click(object? sender, EventArgs e)
@@ -80,28 +100,6 @@ namespace Biblioteca
         private void btnProcesoMasivo_Click(object? sender, EventArgs e)
         {
             AbrirHijo<FrmProcesosHilos>("Reporte masivo (hilos)");
-        }
-
-        private void btnMisPrestamos_Click(object? sender, EventArgs e)
-        {
-            Usuarios? actual = Sesion.UsuarioActual;
-            if (actual == null)
-                return;
-
-            StringBuilder sb = new StringBuilder();
-            foreach (Prestamos p in Prestamos.ObtenerTodos())
-            {
-                if (p.Usuario.Id != actual.Id)
-                    continue;
-
-                p.ActualizarEstado();
-                sb.AppendLine($"Préstamo #{p.Id} | {p.Estado} | Fecha límite: {p.FechaEntrega:dd/MM/yyyy}");
-            }
-
-            if (sb.Length == 0)
-                sb.Append("No tiene préstamos registrados.");
-
-            MessageBox.Show(sb.ToString(), "Mis préstamos", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // ================== ACTIVIDAD 3.5: ARQUITECTURA MDI ==================

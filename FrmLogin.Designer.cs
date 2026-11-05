@@ -18,12 +18,12 @@
         private void InitializeComponent()
         {
             lblTitulo = new Label();
-            lblCorreo = new Label();
+            lblUsuario = new Label();
             lblContrasena = new Label();
-            txtCorreo = new TextBox();
+            txtUsuario = new TextBox();
             txtContrasena = new TextBox();
             btnIngresar = new Button();
-            btnCancelar = new Button();
+            btnSalir = new Button();
             lblAutoria = new Label();
             SuspendLayout();
             // 
@@ -37,21 +37,21 @@
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Inicio de sesión";
             // 
-            // lblCorreo
+            // lblUsuario
             // 
-            lblCorreo.AutoSize = true;
-            lblCorreo.Location = new Point(30, 74);
-            lblCorreo.Name = "lblCorreo";
-            lblCorreo.Size = new Size(57, 20);
-            lblCorreo.TabIndex = 1;
-            lblCorreo.Text = "Correo:";
+            lblUsuario.AutoSize = true;
+            lblUsuario.Location = new Point(30, 74);
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new Size(64, 20);
+            lblUsuario.TabIndex = 1;
+            lblUsuario.Text = "Usuario:";
             // 
-            // txtCorreo
+            // txtUsuario
             // 
-            txtCorreo.Location = new Point(30, 98);
-            txtCorreo.Name = "txtCorreo";
-            txtCorreo.Size = new Size(320, 27);
-            txtCorreo.TabIndex = 2;
+            txtUsuario.Location = new Point(30, 98);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new Size(320, 27);
+            txtUsuario.TabIndex = 2;
             // 
             // lblContrasena
             // 
@@ -78,15 +78,17 @@
             btnIngresar.TabIndex = 5;
             btnIngresar.Text = "Ingresar";
             btnIngresar.UseVisualStyleBackColor = true;
+            btnIngresar.Click += btnIngresar_Click;
             // 
-            // btnCancelar
+            // btnSalir
             // 
-            btnCancelar.Location = new Point(246, 214);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(104, 34);
-            btnCancelar.TabIndex = 6;
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = true;
+            btnSalir.Location = new Point(246, 214);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(104, 34);
+            btnSalir.TabIndex = 6;
+            btnSalir.Text = "Salir";
+            btnSalir.UseVisualStyleBackColor = true;
+            btnSalir.Click += btnSalir_Click;
             // 
             // lblAutoria
             // 
@@ -105,12 +107,12 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(380, 358);
             Controls.Add(lblAutoria);
-            Controls.Add(btnCancelar);
+            Controls.Add(btnSalir);
             Controls.Add(btnIngresar);
             Controls.Add(txtContrasena);
             Controls.Add(lblContrasena);
-            Controls.Add(txtCorreo);
-            Controls.Add(lblCorreo);
+            Controls.Add(txtUsuario);
+            Controls.Add(lblUsuario);
             Controls.Add(lblTitulo);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
@@ -125,12 +127,12 @@
         #endregion
 
         private Label lblTitulo;
-        private Label lblCorreo;
+        private Label lblUsuario;
         private Label lblContrasena;
-        private TextBox txtCorreo;
+        private TextBox txtUsuario;
         private TextBox txtContrasena;
         private Button btnIngresar;
-        private Button btnCancelar;
+        private Button btnSalir;
         private Label lblAutoria;
     }
 }

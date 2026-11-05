@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 
 using Biblioteca.Models;
@@ -33,8 +33,25 @@ namespace Biblioteca
             btnDeshacer.Click -= btnDeshacer_Click;
             btnDeshacer.Click += btnDeshacer_Click;
 
+            ConfigurarSelectores();
             ConfigurarEstadoYDevolucion();
             ActualizarVistaHistorial();   // deja el botón Deshacer desactivado al iniciar
+        }
+
+        // ================== MENÚS PARA ELEGIR USUARIO Y LIBRO ==================
+        // En lugar de escribir el nombre, se elige entre los usuarios y libros que ya existen.
+        private void ConfigurarSelectores()
+        {
+            ActualizarSelectores();
+            cmb_Usuario_frmPrest.Enter += (s, e) => ActualizarSelectores();
+            cmb_Libro_frmPrest.Enter += (s, e) => ActualizarSelectores();
+            this.Activated += (s, e) => ActualizarSelectores();   // incluye los registros nuevos al regresar al formulario
+        }
+
+        private void ActualizarSelectores()
+        {
+            CargarSelector(cmb_Usuario_frmPrest, Usuarios.ObtenerTodos().Select(u => u.NombreCompleto));
+            CargarSelector(cmb_Libro_frmPrest, Libros.ObtenerTodos().Select(l => l.Titulo));
         }
 
         // Control nuevo (se agrega desde el Diseñador, ver guía): dtp_FechaDevol_frmPrest (DateTimePicker)
@@ -50,8 +67,8 @@ namespace Biblioteca
             dtp_FechaDevol_frmPrest.ShowCheckBox = true;
             dtp_FechaDevol_frmPrest.Checked = false;
 
-            // Alumnos y profesores solo consultan sus propios préstamos
-            if (!Sesion.EsAdministrador)
+            // Perfil Invitado: solo consulta (Administrador y Operador pueden registrar y actualizar)
+            if (SesionSistema.EsInvitado)
             {
                 foreach (Control c in this.Controls)
                     BloquearControles(c);
@@ -158,7 +175,7 @@ namespace Biblioteca
                 }
 
                 // El usuario y el libro deben estar registrados
-                Usuarios? usr = BuscarUsuarioPorNombre(txb_Usuario_frmPrest.Text.Trim());
+                Usuarios? usr = BuscarUsuarioPorNombre(cmb_Usuario_frmPrest.Text.Trim());
                 if (usr == null)
                 {
                     txb_Info_frmPrest.Text = "El usuario no está registrado. Regístrelo primero en el módulo Usuarios.";
@@ -170,7 +187,7 @@ namespace Biblioteca
                     return;
                 }
 
-                Libros? libro = BuscarLibroPorTitulo(txb_Libro_frmPrest.Text.Trim());
+                Libros? libro = BuscarLibroPorTitulo(cmb_Libro_frmPrest.Text.Trim());
                 if (libro == null)
                 {
                     txb_Info_frmPrest.Text = "El libro no está registrado. Regístrelo primero en el módulo Libros.";
@@ -184,7 +201,7 @@ namespace Biblioteca
                     return;
                 }
 
-                string rutaImagen = txb_RutaIma_frmPrest.Text.Trim();
+                string rutaImagen = ObtenerRutaImagen(txb_RutaIma_frmPrest);   // FrmBase: copia física + ruta relativa
                 bool estado = cmb_Estado_frmPrest.SelectedItem?.ToString() == "Activo";
 
                 // Instancia usando el constructor parametrizado de la clase Prestamos
@@ -243,20 +260,14 @@ namespace Biblioteca
 
                 if (resultado is Prestamos prestamoEncontrado)
                 {
-                    // Alumnos y profesores solo ven sus propios préstamos
-                    if (!Sesion.EsAdministrador && prestamoEncontrado.Usuario.Id != Sesion.UsuarioActual?.Id)
-                    {
-                        txb_Info_frmPrest.Text = "No tiene permiso para consultar este préstamo.";
-                        return;
-                    }
-
                     prestamoEncontrado.ActualizarEstado();
                     txtId.Text = prestamoEncontrado.Id.ToString();
-                    txb_Usuario_frmPrest.Text = prestamoEncontrado.Usuario.Nombre;
+                    ActualizarSelectores();
+                    cmb_Usuario_frmPrest.Text = prestamoEncontrado.Usuario.NombreCompleto;
 
                     if (prestamoEncontrado.LibrosPrestados != null && prestamoEncontrado.LibrosPrestados.Length > 0 && prestamoEncontrado.LibrosPrestados[0] != null)
                     {
-                        txb_Libro_frmPrest.Text = prestamoEncontrado.LibrosPrestados[0].Titulo;
+                        cmb_Libro_frmPrest.Text = prestamoEncontrado.LibrosPrestados[0].Titulo;
                     }
 
                     dtp_FechaEntr_frmPrest.Value = prestamoEncontrado.FechaEntrega;
@@ -324,7 +335,7 @@ namespace Biblioteca
                 }
 
                 prestamo.FechaEntrega = dtp_FechaEntr_frmPrest.Value;
-                prestamo.RutaImagen = txb_RutaIma_frmPrest.Text.Trim();
+                prestamo.RutaImagen = ObtenerRutaImagen(txb_RutaIma_frmPrest);
                 prestamo.EsActivo = cmb_Estado_frmPrest.SelectedItem?.ToString() == "Activo";
 
                 if (estadoSel == EstadoPrestamo.Devuelto && prestamo.Estado != EstadoPrestamo.Devuelto)
@@ -387,8 +398,8 @@ namespace Biblioteca
         private void LimpiarCampos()
         {
             txtId.Clear();
-            txb_Usuario_frmPrest.Clear();
-            txb_Libro_frmPrest.Clear();
+            cmb_Usuario_frmPrest.SelectedIndex = -1;
+            cmb_Libro_frmPrest.SelectedIndex = -1;
             dtp_FechaEntr_frmPrest.Value = DateTime.Now.AddDays(7);
             dtp_FechaDevol_frmPrest.Checked = false;
             txb_RutaIma_frmPrest.Clear();

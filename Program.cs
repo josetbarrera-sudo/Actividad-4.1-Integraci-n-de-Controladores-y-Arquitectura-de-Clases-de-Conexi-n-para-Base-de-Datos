@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * ENCABEZADO DE AUTORÍA
+ * Equipo N°: 3
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
+ */
+using System;
 using System.Windows.Forms;
 using Biblioteca.Models;
 
@@ -6,22 +14,27 @@ namespace Biblioteca
 {
     internal static class Program
     {
+        // Actividad 3.7: control del ciclo de vida de la aplicación.
+        // 1) Se muestra FrmLogin de forma MODAL con ShowDialog().
+        // 2) Se evalúa el DialogResult: FrmLogin devuelve OK solo si las credenciales son válidas
+        //    (la sesión ya quedó guardada en SesionSistema).
+        // 3) Si es OK se ejecuta Application.Run(new FrmPrincipal()); si es Cancel (Salir, cerrar con X
+        //    o demasiados intentos) el programa termina sin abrir el formulario principal.
         [STAThread]
         static void Main()
         {
             ApplicationConfiguration.Initialize();
 
-            // Primer administrador (solo si aún no existe) para poder iniciar sesión
-            Sesion.SembrarAdministradorInicial();
-
-            // Inicio de sesión: si se cancela o falla, la aplicación no abre
+            DialogResult resultado;
             using (FrmLogin login = new FrmLogin())
             {
-                if (login.ShowDialog() != DialogResult.OK)
-                    return;
+                resultado = login.ShowDialog();
             }
 
-            Application.Run(new FrmPrincipal());
+            if (resultado == DialogResult.OK)
+            {
+                Application.Run(new FrmPrincipal());
+            }
         }
 
         private static void EjecutarPruebasDeConsola()

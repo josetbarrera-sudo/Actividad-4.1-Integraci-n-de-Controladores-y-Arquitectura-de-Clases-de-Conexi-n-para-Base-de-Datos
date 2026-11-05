@@ -1,10 +1,10 @@
-/*
+﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 
 using System;
@@ -92,6 +92,8 @@ namespace Biblioteca.Models
             set => _esNovedad = value;
         }
 
+        // Actividad 3.6: guarda únicamente la ruta RELATIVA del archivo (ej. "ImagenesDatos\\<guid>.png"),
+        // no la imagen como arreglo de bytes, para no consumir memoria RAM innecesariamente.
         public string RutaImagen
         {
             get => _rutaImagen;

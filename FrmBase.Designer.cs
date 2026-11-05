@@ -33,12 +33,18 @@
             txtId = new TextBox();
             label1 = new Label();
             errorProvider1 = new ErrorProvider(components);
+            pbxFotografia = new PictureBox();
+            btnCargarFoto = new Button();
+            ofdImagen = new OpenFileDialog();
             pnlFormularioBase.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbxFotografia).BeginInit();
             SuspendLayout();
             // 
             // pnlFormularioBase
             // 
+            pnlFormularioBase.Controls.Add(btnCargarFoto);
+            pnlFormularioBase.Controls.Add(pbxFotografia);
             pnlFormularioBase.Controls.Add(txtId);
             pnlFormularioBase.Controls.Add(label1);
             pnlFormularioBase.Dock = DockStyle.Left;
@@ -63,6 +69,32 @@
             label1.TabIndex = 0;
             label1.Text = "ID:";
             // 
+            // pbxFotografia  (Actividad 3.6: vista previa de la imagen, común a todos los formularios)
+            // 
+            pbxFotografia.BackColor = SystemColors.ButtonHighlight;
+            pbxFotografia.BorderStyle = BorderStyle.FixedSingle;
+            pbxFotografia.Location = new Point(830, 490);
+            pbxFotografia.Name = "pbxFotografia";
+            pbxFotografia.Size = new Size(209, 200);
+            pbxFotografia.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbxFotografia.TabIndex = 95;
+            pbxFotografia.TabStop = false;
+            // 
+            // btnCargarFoto  (Actividad 3.6: botón "Cargar Imagen", común a todos los formularios)
+            // 
+            btnCargarFoto.Location = new Point(830, 698);
+            btnCargarFoto.Name = "btnCargarFoto";
+            btnCargarFoto.Size = new Size(209, 32);
+            btnCargarFoto.TabIndex = 96;
+            btnCargarFoto.Text = "Cargar Imagen";
+            btnCargarFoto.UseVisualStyleBackColor = true;
+            // 
+            // ofdImagen  (OpenFileDialog de la Actividad 3.3, filtrado a imágenes)
+            // 
+            ofdImagen.CheckFileExists = true;
+            ofdImagen.Filter = "Archivos de imagen (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+            ofdImagen.Title = "Seleccionar imagen";
+            // 
             // errorProvider1
             // 
             errorProvider1.BlinkStyle = ErrorBlinkStyle.AlwaysBlink;
@@ -77,6 +109,7 @@
             Name = "FrmBase";
             Text = "FrmBase";
             ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbxFotografia).EndInit();
             pnlFormularioBase.ResumeLayout(false);
             pnlFormularioBase.PerformLayout();
             ResumeLayout(false);
@@ -88,5 +121,8 @@
         protected TextBox txtId;
         protected Label label1;
         protected ErrorProvider errorProvider1;
+        protected PictureBox pbxFotografia;
+        protected Button btnCargarFoto;
+        protected OpenFileDialog ofdImagen;
     }
 }

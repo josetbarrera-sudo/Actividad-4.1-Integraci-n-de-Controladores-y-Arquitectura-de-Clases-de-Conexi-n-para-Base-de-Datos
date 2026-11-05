@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 using Biblioteca.Models;
 using System;
@@ -38,7 +38,7 @@ namespace Biblioteca
                 int edad = int.TryParse(txB_Autor_Edad.Text.Trim(), out int e) ? e : 18;
                 string correo = txB_Autor_Correo.Text.Trim();
                 string nacionalidad = txB_Autor_Nacionalidad.Text.Trim();
-                string rutaImagen = txB_Autor_RutaImagen.Text.Trim();
+                string rutaImagen = ObtenerRutaImagen(txB_Autor_RutaImagen);   // FrmBase: copia física + ruta relativa
                 bool estado = ckB_Estado.Checked;
 
                 // Crear objeto y guardarlo invocando el método de almacenamiento del modelo
@@ -112,7 +112,7 @@ namespace Biblioteca
                     int.TryParse(txB_Autor_Edad.Text.Trim(), out int e) ? e : 18,
                     txB_Autor_Correo.Text.Trim(),
                     txB_Autor_Nacionalidad.Text.Trim(),
-                    txB_Autor_RutaImagen.Text.Trim(),
+                    ObtenerRutaImagen(txB_Autor_RutaImagen),
                     ckB_Estado.Checked
                 );
 

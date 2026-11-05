@@ -1,10 +1,10 @@
 ﻿/*
  * ENCABEZADO DE AUTORÍA
  * Equipo N°: 3
- * Integrantes:
- * 1. CONTRERAS Rodriguez Janis Isabel
- * 2. TORRES Barrera Jose Angel
- * 3. MACÍAS Cruz Meredith Miranda
+ * Integrantes (orden alfabético por primer apellido):
+ * 1. CONTRERAS Rodríguez Janis Isabel
+ * 2. MACÍAS Cruz Meredith Miranda
+ * 3. TORRES Barrera José Ángel
  */
 using Biblioteca.Models;
 using System;
@@ -51,6 +51,9 @@ namespace Biblioteca
             btnBuscarDetalle.Click += btnBuscarDetalle_Click;
             btnFiltrarDetalle.Click += btnFiltrarDetalle_Click;
             btnVaciarDetalle.Click += btnVaciarDetalle_Click;
+
+            // El menú de libros se actualiza al entrar, para incluir los libros registrados después de abrir el formulario
+            cmb_Libros_frmEdi.Enter += (s, e) => RefrescarComboLibros();
         }
 
         // ================== ACTIVIDAD 3.1: EVENTOS DE VALIDACIÓN ==================
@@ -81,6 +84,14 @@ namespace Biblioteca
         {
             CargarComboLibros();
             ActualizarDetalle();
+        }
+
+        private void RefrescarComboLibros()
+        {
+            Libros? seleccionado = cmb_Libros_frmEdi.SelectedItem as Libros;
+            CargarComboLibros();
+            if (seleccionado != null)
+                cmb_Libros_frmEdi.SelectedItem = seleccionado;
         }
 
         // Llena el ComboBox con los libros ya registrados en el sistema.
@@ -278,7 +289,7 @@ namespace Biblioteca
                 string pais = txb_Pais_frmEdi.Text.Trim();
                 int anioFundacion = dtp_AñoFunda_frmEdi.Value.Year;
                 string correo = txb_Correo_frmEdi.Text.Trim();
-                string rutaImagen = txb_RutaIma_frmEdi.Text.Trim();
+                string rutaImagen = ObtenerRutaImagen(txb_RutaIma_frmEdi);   // FrmBase: copia física + ruta relativa
                 bool estado = cmb_Estado_frmEdi.SelectedItem?.ToString() == "Activo";
 
                 // Se empaquetan los datos del formulario junto con la colección del DataGridView
@@ -364,7 +375,7 @@ namespace Biblioteca
                     txb_Pais_frmEdi.Text.Trim(),
                     dtp_AñoFunda_frmEdi.Value.Year,
                     txb_Correo_frmEdi.Text.Trim(),
-                    txb_RutaIma_frmEdi.Text.Trim(),
+                    ObtenerRutaImagen(txb_RutaIma_frmEdi),
                     cmb_Estado_frmEdi.SelectedItem?.ToString() == "Activo",
                     _editorialTemp.ListaLibros
                 );

@@ -36,8 +36,8 @@
             label41 = new Label();
             cmb_Estado_frmPrest = new ComboBox();
             cmb_Status_frmPrest = new ComboBox();
-            txb_Libro_frmPrest = new TextBox();
-            txb_Usuario_frmPrest = new TextBox();
+            cmb_Libro_frmPrest = new ComboBox();
+            cmb_Usuario_frmPrest = new ComboBox();
             label36 = new Label();
             label37 = new Label();
             label38 = new Label();
@@ -66,8 +66,8 @@
             pnlFormularioBase.Controls.Add(label41);
             pnlFormularioBase.Controls.Add(cmb_Estado_frmPrest);
             pnlFormularioBase.Controls.Add(cmb_Status_frmPrest);
-            pnlFormularioBase.Controls.Add(txb_Libro_frmPrest);
-            pnlFormularioBase.Controls.Add(txb_Usuario_frmPrest);
+            pnlFormularioBase.Controls.Add(cmb_Libro_frmPrest);
+            pnlFormularioBase.Controls.Add(cmb_Usuario_frmPrest);
             pnlFormularioBase.Controls.Add(label36);
             pnlFormularioBase.Controls.Add(label37);
             pnlFormularioBase.Controls.Add(label38);
@@ -83,8 +83,8 @@
             pnlFormularioBase.Controls.SetChildIndex(label38, 0);
             pnlFormularioBase.Controls.SetChildIndex(label37, 0);
             pnlFormularioBase.Controls.SetChildIndex(label36, 0);
-            pnlFormularioBase.Controls.SetChildIndex(txb_Usuario_frmPrest, 0);
-            pnlFormularioBase.Controls.SetChildIndex(txb_Libro_frmPrest, 0);
+            pnlFormularioBase.Controls.SetChildIndex(cmb_Usuario_frmPrest, 0);
+            pnlFormularioBase.Controls.SetChildIndex(cmb_Libro_frmPrest, 0);
             pnlFormularioBase.Controls.SetChildIndex(cmb_Status_frmPrest, 0);
             pnlFormularioBase.Controls.SetChildIndex(cmb_Estado_frmPrest, 0);
             pnlFormularioBase.Controls.SetChildIndex(label41, 0);
@@ -189,21 +189,25 @@
             cmb_Status_frmPrest.Size = new Size(228, 28);
             cmb_Status_frmPrest.TabIndex = 67;
             // 
-            // txb_Libro_frmPrest
+            // cmb_Libro_frmPrest
             // 
-            txb_Libro_frmPrest.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txb_Libro_frmPrest.Location = new Point(167, 135);
-            txb_Libro_frmPrest.Name = "txb_Libro_frmPrest";
-            txb_Libro_frmPrest.Size = new Size(253, 27);
-            txb_Libro_frmPrest.TabIndex = 66;
+            cmb_Libro_frmPrest.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmb_Libro_frmPrest.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_Libro_frmPrest.FormattingEnabled = true;
+            cmb_Libro_frmPrest.Location = new Point(167, 135);
+            cmb_Libro_frmPrest.Name = "cmb_Libro_frmPrest";
+            cmb_Libro_frmPrest.Size = new Size(253, 28);
+            cmb_Libro_frmPrest.TabIndex = 66;
             // 
-            // txb_Usuario_frmPrest
+            // cmb_Usuario_frmPrest
             // 
-            txb_Usuario_frmPrest.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txb_Usuario_frmPrest.Location = new Point(179, 91);
-            txb_Usuario_frmPrest.Name = "txb_Usuario_frmPrest";
-            txb_Usuario_frmPrest.Size = new Size(241, 27);
-            txb_Usuario_frmPrest.TabIndex = 65;
+            cmb_Usuario_frmPrest.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmb_Usuario_frmPrest.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_Usuario_frmPrest.FormattingEnabled = true;
+            cmb_Usuario_frmPrest.Location = new Point(179, 91);
+            cmb_Usuario_frmPrest.Name = "cmb_Usuario_frmPrest";
+            cmb_Usuario_frmPrest.Size = new Size(241, 28);
+            cmb_Usuario_frmPrest.TabIndex = 65;
             // 
             // label36
             // 
@@ -320,8 +324,8 @@
         private Label label41;
         private ComboBox cmb_Estado_frmPrest;
         private ComboBox cmb_Status_frmPrest;
-        private TextBox txb_Libro_frmPrest;
-        private TextBox txb_Usuario_frmPrest;
+        private ComboBox cmb_Libro_frmPrest;
+        private ComboBox cmb_Usuario_frmPrest;
         private Label label36;
         private Label label37;
         private Label label38;
