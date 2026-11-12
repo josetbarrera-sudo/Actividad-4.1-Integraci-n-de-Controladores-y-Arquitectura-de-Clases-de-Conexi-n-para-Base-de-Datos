@@ -8,6 +8,11 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="MongoDB.Driver" Version="3.13.0" />
+	  <PackageReference Include="MySql.Data" Version="26.10.0" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<Compile Update="Form1.cs">

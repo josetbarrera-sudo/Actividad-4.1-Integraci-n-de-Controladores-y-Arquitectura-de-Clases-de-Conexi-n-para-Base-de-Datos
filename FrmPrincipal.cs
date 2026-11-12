@@ -25,6 +25,11 @@ namespace Biblioteca
         public FrmPrincipal()
         {
             InitializeComponent();
+
+            // Actividad 4.1: opción de menú para abrir la ventana de prueba de conexión a las bases de datos.
+            ToolStripMenuItem mnuConexion = new ToolStripMenuItem("Prueba de conexión");
+            mnuConexion.Click += (s, e) => new FrmPruebaConexion().ShowDialog(this);
+            menuStrip1.Items.Add(mnuConexion);
         }
 
         // ================== ACTIVIDAD 3.7: SESIÓN Y RESTRICCIONES POR PERFIL ==================
